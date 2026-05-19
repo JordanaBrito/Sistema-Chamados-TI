@@ -43,6 +43,10 @@ while (sistemaAtivo)
             sistemaAtivo = false;
             break;
 
+        default:
+            Console.WriteLine("Opção inválida!");
+            break;
+
 
     }
 
@@ -69,10 +73,10 @@ static void AlterarStatus(List<Chamado> listaChamados)
 
     Console.WriteLine("Digite o Id do Chamado");
     string idDigitado = Console.ReadLine();
-    int respostaId = int.Parse(idDigitado);
-
-
-
+    int respostaId;
+    if (int.TryParse(idDigitado, out respostaId))
+    {
+        
     foreach (Chamado chamado in listaChamados)
     {
         if (chamado.Id == respostaId)
@@ -87,6 +91,12 @@ static void AlterarStatus(List<Chamado> listaChamados)
 
     }
     Console.WriteLine("Erro. ID inválido");
+    }
+    else
+    {
+        Console.WriteLine("Erro. Número inválido!");
+    }
+
 }   
 
 
@@ -113,36 +123,32 @@ static void AbrirChamado(List<Chamado> listaChamados, int numeroId)
 
 static void RemoverChamado(List<Chamado> listaChamados)
 {
-     Console.WriteLine("Digite o Id do Chamado");
+    Console.WriteLine("Digite o Id do Chamado");
     string idDigitado = Console.ReadLine();
-    int respostaId = int.Parse(idDigitado);
-    Chamado chamadoEncontrado = null;
-   
-    foreach (Chamado chamado in listaChamados)
+    int respostaId;
+
+    if (int.TryParse(idDigitado, out respostaId))
     {
-        if (chamado.Id == respostaId)
+        foreach (Chamado chamado in listaChamados)
         {
-            chamadoEncontrado = chamado;
-            break;
+            if (chamado.Id == respostaId)
+            {
+                listaChamados.Remove(chamado);
+                Console.WriteLine("Chamado removido!");
+                return;
+            }
         }
+
+        Console.WriteLine("Chamado inválido");
+
     }
-    if (chamadoEncontrado != null)
+    else
     {
-        listaChamados.Remove(chamadoEncontrado);
-        Console.WriteLine("Chamado removido!");
-    }
-    if(chamadoEncontrado == null)
-    {
-        Console.WriteLine("Chamado inválido.Tente novamente!");
+        Console.WriteLine("Número inválido");
     }
 }
 class Chamado
 {
-
-
-
-
-
     public int Id { get; set; }
     public string Titulo { get; set; }
     public string Descricao { get; set; }
